@@ -75,7 +75,7 @@ fun UserProfile(user: User, modifier: Modifier = Modifier) {
 fun UserProfilePreview() {
     //criar user falso para testar
     val fakeUser = User(
-        "mamede",
+        "mmd",
         "",
         "",
         "Android Developer Student",

@@ -98,8 +98,6 @@ fun RepositoryItem(repository: Repository){
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-            }
-
 //            if (repository.language != null) {
 //                Text(
 //                    text = repository.language,
@@ -115,17 +113,18 @@ fun RepositoryItem(repository: Repository){
 //                Spacer(modifier = Modifier.width(16.dp))
 //            }
 
-            Icon(
-                imageVector = Icons.Default.Star,
-                contentDescription = "Estrelas",
-                tint = Color(0xFFFFC107), // dourada
-                modifier = Modifier.size(16.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = repository.stargazersCount.toString(),
-                style = MaterialTheme.typography.bodyMedium
-            )
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "Estrelas",
+                    tint = Color(0xFFFFC107), // dourada
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = repository.stargazersCount.toString(),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 }
