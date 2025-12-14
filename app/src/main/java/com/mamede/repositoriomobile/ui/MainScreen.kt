@@ -27,14 +27,18 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 CircularProgressIndicator()
             }
         }
+
         is MainUiState.Success -> {
-            SuccessScreen(user = currentState.user,
-                repositories = currentState.repositories)
+            SuccessScreen(
+                user = currentState.user,
+                repositories = currentState.repositories
+            )
         }
+
         is MainUiState.Error -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(text = "Erro: ${currentState.message}")
             }
         }
-
+    }
 }
