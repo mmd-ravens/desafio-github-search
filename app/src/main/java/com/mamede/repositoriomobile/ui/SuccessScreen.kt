@@ -1,5 +1,7 @@
 package com.mamede.repositoriomobile.ui
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,21 +16,35 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mamede.repositoriomobile.data.User
 import com.mamede.repositoriomobile.data.model.Repository
 
+
+/**
+ * Composable que representa a tela de sucesso, exibida quando os dados do usuário
+ * e seus repositórios são carregados com sucesso.
+ *
+ * Utiliza um [LazyColumn] para exibir de forma eficiente uma lista que contém o perfil do usuário
+ * seguido por uma lista de seus repositórios.
+ *
+ * @param user O objeto [User] contendo os dados do perfil do usuário.
+ * @param repositories A lista de [Repository] a ser exibida.
+ */
 @Composable
 fun SuccessScreen(user: User, repositories: List<Repository>){
 
@@ -54,8 +70,19 @@ fun SuccessScreen(user: User, repositories: List<Repository>){
     }
 }
 
+/**
+ * Composable que exibe um único item de repositório dentro de um [Card].
+ *
+ * Mostra o nome, descrição (se houver), linguagem, contagem de estrelas e um botão
+ * para compartilhar o link do repositório.
+ *
+ * @param repository O objeto [Repository] a ser exibido.
+ */
 @Composable
 fun RepositoryItem(repository: Repository){
+
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -65,12 +92,50 @@ fun RepositoryItem(repository: Repository){
             modifier = Modifier.padding(16.dp).fillMaxWidth()
         ){
 
-            //nome do repositorio
-            Text(
-                text = repository.name,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // nome do repositorio
+                Text(
+                    text = repository.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(onClick = {
+                    try {
+                        //como compartilhar
+                        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                "Confira esse projeto: ${repository.htmlUrl}")
+                            type = "text/plain"
+                        }
+                        val shareIntent = Intent.createChooser(
+                            sendIntent,
+                            "Compartilhar via...")
+
+
+                        context.startActivity(shareIntent)
+
+                    } catch (e: Exception) {
+                        e.printStackTrace() // logcat
+                        Toast.makeText(context,
+                            "Erro ao compartilhar: ${e.message}",
+                            Toast.LENGTH_SHORT).show()
+                    }
+
+                } ) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = "Compartilhar",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -85,6 +150,7 @@ fun RepositoryItem(repository: Repository){
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
+            // linha com linguagem e estrelinha
             Row(verticalAlignment = Alignment.CenterVertically) {
                 repository.language?.let {
                     Text(

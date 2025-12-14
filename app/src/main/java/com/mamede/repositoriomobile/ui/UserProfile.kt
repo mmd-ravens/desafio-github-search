@@ -21,6 +21,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mamede.repositoriomobile.data.User
 
+/**
+ * Um Composable que exibe o perfil de um usuário do GitHub.
+ *
+ * Esta função de UI mostra a imagem de avatar do usuário de forma circular, seu nome de exibição
+ * (ou login, como fallback), seu @login e sua biografia (se disponível).
+ * A imagem é carregada de forma assíncrona usando a biblioteca Coil.
+ *
+ * @param user O objeto [User] contendo os dados a serem exibidos.
+ * @param modifier O [Modifier] a ser aplicado ao contêiner principal do perfil.
+ */
 @Composable
 fun UserProfile(user: User, modifier: Modifier = Modifier) {
 
@@ -70,6 +80,14 @@ fun UserProfile(user: User, modifier: Modifier = Modifier) {
     }
 }
 
+
+/**
+ * Uma pré-visualização para o Composable [UserProfile].
+ *
+ * A anotação `@Preview` permite que o Android Studio renderize este Composable na janela de design.
+ * Esta função cria um objeto [User] falso ("mock") com dados de exemplo para visualizar
+ * o componente [UserProfile] sem a necessidade de executar o aplicativo ou fazer uma chamada de API.
+ */
 @Preview(showBackground = true)
 @Composable
 fun UserProfilePreview() {

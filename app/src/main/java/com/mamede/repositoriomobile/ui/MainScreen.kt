@@ -15,6 +15,18 @@ import com.mamede.repositoriomobile.data.model.Repository
 import com.mamede.repositoriomobile.viewmodel.MainUiState
 import com.mamede.repositoriomobile.viewmodel.MainViewModel
 
+/**
+ * O Composable principal da aplicação, que atua como um controlador de UI.
+ *
+ * Esta tela observa o estado ([MainUiState]) exposto pelo [MainViewModel] e renderiza
+ * a UI correspondente. Ela lida com os três estados principais:
+ * - **Loading**: Exibe um indicador de progresso centralizado.
+ * - **Success**: Delega a renderização para a [SuccessScreen], passando os dados do usuário e repositórios.
+ * - **Error**: Exibe uma mensagem de erro.
+ *
+ * @param viewModel A instância de [MainViewModel] que gerencia a lógica de negócios e o estado da tela.
+ *                  É injetado por padrão usando `viewModel()`.
+ */
 @Composable
 fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
